@@ -1,0 +1,36 @@
+{% extends 'Tenants/base.html' %}
+{% block body %}
+
+<div class="container-fluid " style="padding-top:70px;">
+    <div class="card">
+        <div class="card-body border-to-left">
+            <h2>Tenant Registration</h2>
+
+<form method="post" id="personForm" data-cities-url="{% url 'Tenants:load_houses' %}" novalidate>
+    {% csrf_token %}
+    {{form.as_p}}
+    <button id="peter" type="submit">Save</button>
+</form>
+  {% block script%}
+<script type="text/javascript">
+    $('#id_apartment').change(function(){
+        var url = $('#personForm').attr('data-cities-url');
+        var apartmentId = $(this).val();
+
+        $.ajax({
+            url: url,
+            data: {
+                'apartment': apartmentId
+            },
+            success: function(data){
+                $('#id_house').html(data);
+            }
+        });
+    });
+</script>
+
+        </div>
+    </div>
+</div>
+  {%endblock script%}
+{% endblock %}

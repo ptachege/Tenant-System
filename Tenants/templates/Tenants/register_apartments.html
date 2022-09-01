@@ -1,0 +1,334 @@
+{% extends 'Tenants/base.html' %}
+{% load static %}
+{% block header %}
+<script src="{% static 'Tenants/global_assets/js/plugins/forms/selects/select2.min.js '%}"></script>
+<script src="{% static 'Tenants/global_assets/js/plugins/forms/styling/uniform.min.js '%}"></script>
+<script src="{% static 'Tenants/global_assets/js/plugins/forms/inputs/inputmask.js'%}"></script>
+<script src="{% static 'Tenants/global_assets/js/plugins/forms/validation/validate.min.js'%}"></script>
+<script src="{% static 'Tenants/global_assets/js/plugins/extensions/cookie.js' %}"></script>
+<script src="{% static 'Tenants/global_assets/js/demo_pages/form_checkboxes_radios.js '%}"></script>
+<script src="{% static 'Tenants/global_assets/js/plugins/forms/styling/uniform.min.js '%}"></script>
+<script src="{% static 'Tenants/global_assets/js/plugins/forms/styling/switchery.min.js '%}"></script>
+<script src="{% static 'Tenants/global_assets/js/plugins/forms/styling/switch.min.js '%}"></script>
+
+
+
+
+
+
+{% endblock header %}
+
+{% block body %}
+<div class="container-fluid">
+	<div class="card my-4">
+		<div class="card-header bg-white header-elements-inline">
+			<h2 class="card-title text-center">Register Property</h2>
+			<div class="header-elements">
+				<div class="list-icons">
+					<a class="list-icons-item" data-action="collapse"></a>
+					<a class="list-icons-item" data-action="reload"></a>
+					<a class="list-icons-item" data-action="remove"></a>
+				</div>
+			</div>
+		</div>
+
+		<form class="wizard-form steps-validation" method="POST" enctype="multipart/form-data" id="myform" data-fouc>
+			{% csrf_token %}
+			<h6>Basic information</h6>
+			<fieldset>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Property Name: <span class="text-danger">*</span></label>
+							<input type="text" name="apartment_name" required id="apartment_name" class="form-control"
+								placeholder="-- Bahama heights --">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Caretaker <span class="text-danger">*</span>
+								<a type="button" href="{% url 'Tenants:register_caretaker' %}" style="color: rgb(70, 67, 67);">
+									<i class="icon-plus-circle2"></i>
+								</a>
+							 </label>
+							{{form.caretaker}}
+						</div>
+						
+					</div>
+				</div>
+
+				<div class="row">
+
+					<div class="col-md-6">
+						<label>Description:</label>
+						<textarea name="description" id="description" rows="5" cols="4"
+							placeholder="Property description" class="form-control"></textarea>
+
+					</div>
+				</div>
+			</fieldset>
+
+			<h6>Location</h6>
+			<fieldset>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>City: <span class="text-danger">*</span></label>
+							<input type="text" required name="city" placeholder="City" class="form-control ">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Town: <span class="text-danger">*</span></label>
+							<input type="text" required name="town" placeholder="Town" class="form-control ">
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Street: <span class="text-danger">*</span></label>
+							<input type="text" required name="street" placeholder="Street name" class="form-control ">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Postal Code:</label>
+							<input type="text" name="postal_code" placeholder="Postal Code" class="form-control">
+						</div>
+					</div>
+				</div>
+			</fieldset>
+
+			<h6>Financials</h6>
+			<fieldset>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<div class="form-group">
+								<select name="payment_plan" required data-placeholder="payment plan"
+									class="form-control form-control-select2" data-fouc>
+									<option></option>
+									<option value="January">Monthly</option>
+									<option value="December">Per Semester</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="input-group">
+							<span class="input-group-prepend">
+								<span class="input-group-text">Ksh.</span>
+							</span>
+							<input type="text" name="agency_comission" value="0" class="form-control"
+								placeholder="Agency Comission">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<label>Please select the type of houses available in this property. <span
+								class="text-danger">*</span></label>
+						<div class="form-check">
+							<label class="form-check-label">
+								<input type="checkbox" onchange="return showsingle()" id="single_checkbox" name=""
+									class="form-input-styled" data-fouc>
+								Single
+							</label>
+							<div id="singleDiv" style="display: none; margin-top: 10px;">
+								<label>Number of units <span class="text-danger">*</span></label>
+								<input type="number" value="0" name="single" placeholder="Units" class="form-control ">
+								<label style=" margin-top: 10px;">Rent <span class="text-danger">*</span></label>
+								<div class="input-group">
+									<span class="input-group-prepend">
+										<span class="input-group-text">Ksh.</span>
+									</span>
+									<input type="text" name="single_rent" id="single_rent" value="0"
+										class="form-control" placeholder="Agency Comission">
+								</div>
+							</div>
+						</div>
+
+						<div class="form-check">
+							<label class="form-check-label">
+								<input type="checkbox" id="bedsitter_checkbox" name=""
+									onchange="return showbed_sitters()" class="form-input-styled" data-fouc>
+								BedSitter
+							</label>
+							<div id="bed_sitters_div" style="display: none; margin-top: 10px;">
+								<label>Number of units <span class="text-danger">*</span></label>
+								<input type="number" value="0" name="bed_sitters" placeholder="Units"
+									class="form-control ">
+
+								<label style=" margin-top: 10px;">Rent <span class="text-danger">*</span></label>
+								<div class="input-group">
+									<span class="input-group-prepend">
+										<span class="input-group-text">Ksh.</span>
+									</span>
+									<input type="text" name="bed_sitters_rent" id="bed_sitters_rent" value="0"
+										class="form-control" placeholder="Agency Comission">
+								</div>
+							</div>
+
+						</div>
+						<div class="form-check">
+							<label class="form-check-label">
+								<input type="checkbox" id="onebedroom_checkbox" onchange="return showone_bedroom()"
+									name="" class="form-input-styled" data-fouc>
+								One Bedroom
+							</label>
+							<div id="onebedroom_div" style="display: none; margin-top: 10px;">
+								<label>Number of units <span class="text-danger">*</span></label>
+								<input type="number" value="0" name="One_Bedroom" placeholder="Units"
+									class="form-control ">
+								<label style=" margin-top: 10px;">Rent <span class="text-danger">*</span></label>
+								<div class="input-group">
+									<span class="input-group-prepend">
+										<span class="input-group-text">Ksh.</span>
+									</span>
+									<input type="text" name="One_Bedroom_rent" id="One_Bedroom_rent" value="0"
+										class="form-control" placeholder="Agency Comission">
+								</div>
+							</div>
+						</div>
+						<div class="form-check">
+
+							<label class="form-check-label">
+								<input type="checkbox" name="auto_house_id" checked class="form-input-styled" data-fouc>
+								Auto Id.
+							</label>
+						</div>
+					</div>
+
+
+				</div>
+			</fieldset>
+
+			<h6>Additional info</h6>
+			<fieldset>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="d-block">Property Images:</label>
+							<input type="file" required name="property_image" class="form-input-styled" data-fouc>
+							<span class="form-text text-muted">Accepted formats: jpg,png,jpeg 2Mb</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4">
+						<div class="form-group">
+							<label>Amenities and Facilities: <span class="text-danger">*</span></label>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input type="checkbox" name="air_conditioner" class="form-input-styled" data-fouc>
+									Air Conditioner
+								</label>
+							</div>
+
+							<div class="form-check">
+								<label class="form-check-label">
+									<input type="checkbox" name="car_parking" class="form-input-styled" data-fouc>
+									Car Parking
+								</label>
+							</div>
+
+							<div class="form-check">
+								<label class="form-check-label">
+									<input type="checkbox" name="laundry_room" class="form-input-styled" data-fouc>
+									Laundry Room
+								</label>
+							</div>
+
+							<div class="form-check">
+								<label class="form-check-label">
+									<input type="checkbox" name="heater" class="form-input-styled" data-fouc>
+									Heater
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<div class="form-check">
+								<label class="form-check-label">
+									<input type="checkbox" name="balcony" class="form-input-styled" data-fouc>
+									Balcony
+								</label>
+							</div>
+
+							<div class="form-check">
+								<label class="form-check-label">
+									<input type="checkbox" name="gym" class="form-input-styled" data-fouc>
+									Gym
+								</label>
+							</div>
+
+							<div class="form-check">
+								<label class="form-check-label">
+									<input type="checkbox" name="internet" class="form-input-styled" data-fouc>
+									Internet
+								</label>
+							</div>
+
+							<div class="form-check">
+								<label class="form-check-label">
+									<input type="checkbox" name="garden" class="form-input-styled" data-fouc>
+									Garden
+								</label>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input type="checkbox" name="alarm" class="form-input-styled" data-fouc>
+									Alarm
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label>Additional information:</label>
+							<textarea name="additional-info" rows="5" cols="5"
+								placeholder="If you want to add any info, do it here." class="form-control"></textarea>
+						</div>
+					</div>
+					<button type="submit">Submit</button>
+
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</div>
+{% block scripts %}
+<script>
+	function showsingle() {
+		if ($('#single_checkbox').prop('checked')) {
+			$('#singleDiv').css('display', 'block');
+		}
+		else {
+			$('#singleDiv').css('display', 'none');
+		}
+	}
+	function showbed_sitters() {
+		if ($('#bedsitter_checkbox').prop('checked')) {
+			$('#bed_sitters_div').css('display', 'block');
+		}
+		else {
+			$('#bed_sitters_div').css('display', 'none');
+		}
+	}
+	function showone_bedroom() {
+		if ($('#onebedroom_checkbox').prop('checked')) {
+			$('#onebedroom_div').css('display', 'block');
+		}
+		else {
+			$('#onebedroom_div').css('display', 'none');
+		}
+	}
+
+</script>
+{% endblock scripts %}
+
+{% endblock body %}

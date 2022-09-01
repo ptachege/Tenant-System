@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../../LuxExams/.idea/LuxExams.iml" filepath="$PROJECT_DIR$/../../LuxExams/.idea/LuxExams.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/TenantSystem.iml" filepath="$PROJECT_DIR$/.idea/TenantSystem.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../allsaintscathedralv2/.idea/allsaintscathedralv2.iml" filepath="$PROJECT_DIR$/../../allsaintscathedralv2/.idea/allsaintscathedralv2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../justchat-master/.idea/justchat-master.iml" filepath="$PROJECT_DIR$/../../justchat-master/.idea/justchat-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../portfolio/.idea/portfolio.iml" filepath="$PROJECT_DIR$/../../portfolio/.idea/portfolio.iml" />
+    </modules>
+  </component>
+</project>

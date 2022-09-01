@@ -1,0 +1,317 @@
+{% extends 'Tenants/base.html' %}
+{% load static %}
+{% block header %}
+<script src="{% static 'Tenants/global_assets/js/main/jquery.min.js '%}"></script>
+<script src="{% static 'Tenants/global_assets/js/main/bootstrap.bundle.min.js '%}"></script>
+<script src="{% static 'Tenants/global_assets/js/plugins/loaders/blockui.min.js '%}"></script>
+<script src="{% static 'Tenants/global_assets/js/plugins/notifications/sweet_alert.min.js' %}"></script>
+
+<style>
+		.btn-sweet{
+		background: transparent;
+		border: none;
+	}
+	.btn-sweet:focus{
+		outline: none;
+	}
+
+</style>
+
+{% endblock header %}
+
+{% block body %}
+<div class="container-fluid my-4">
+	<div class="row">
+		<a href="{% url 'Tenants:apartment_list' %}" class="btn btn-outline-dark btn-sm ml-auto"
+			style="margin-right: 20px; margin-bottom: 10px;border-radius: 5px;">
+			<i class="icon-arrow-left15 mr-1"></i>
+			Go
+			Back</a>
+	</div>
+	<div class="row">
+		<div class="col-md-5">
+			<div class="card">
+				<div class="card-header header-elements-inline" style="background-color: rgb(50,65,72);color: #fff;">
+					<h5 class="card-title"><i class="icon-library2" style="font-size: 25px;"></i>
+						&nbsp;<small>{{house.apartment.apartment_name}}: </small> &nbsp;-- Room {{house.house_code}}  --
+					</h5>
+					<div class="header-elements">
+						<div class="list-icons">
+							<a class="list-icons-item" data-action="reload"></a>
+							<a class="list-icons-item" data-action="remove"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card my-3">
+				<div class="card-body">
+					<div class="container-fluid">
+						<div class="table-responsive">
+							<table class="table table-striped">
+								<tr>
+									<td><b>Unit Code:</b></td>
+									<td>{{house.house_code}}</td>
+								</tr>
+								<tr>
+									<td><b>House Type:</b></td>
+									<td>{{house.house_type}}</td>
+								</tr>
+								<tr>
+									<td><b>Parent Property:</b></td>
+									<td>{{house.apartment.apartment_name}} 
+										<a href="{% url 'Tenants:apartment_detail' house.apartment.id %}">
+											<i class="icon-eye4 ml-2" style="color:black; font-size: 14px;"></i>
+										</a>
+									</td>
+								</tr>
+								<tr>
+									<td><b>Monthly Rent:</b></td>
+									<td>Ksh {{house.rent}}</td>
+								</tr>
+								<tr>
+									<td><b>Deposit Needed:</b></td>
+									<td>Ksh {{house.deposit}}</td>
+								</tr>
+								<tr>
+									<td><b>Status:</b></td>
+									<td>
+										{% if house.vacant %}
+										<span class="badge badge-warning">
+											Vacant
+										</span>
+										{% else %}
+										<span class="badge badge-primary">
+											Occupied
+										</span>
+
+										{% endif %}
+									</td>
+								</tr>
+								
+								{% if not house.vacant %}
+																		
+								<tr>
+									<td colspan="2" class="text-center">
+											<button type="button" class="btn btn-warning btn-sm"  id="sweet_warning"><i class="icon-cross3"></i> Vacate</button>
+																			
+									</td>
+								</tr>
+								{% endif %}
+
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-7">
+			<div class="card">
+				<div class="card-header header-elements-inline" style="background-color: rgb(50,65,72);color: #fff;">
+					<h3 class="card-title">
+						<i class="icon-info3" style="font-size: 25px;"></i>
+						&nbsp; Extra Info
+					</h3>
+					<div class="header-elements">
+						<div class="list-icons">
+							<a class="list-icons-item" data-action="reload"></a>
+							<a class="list-icons-item" data-action="remove"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card my-3">
+				<div class="card-body">
+					<ul class="nav nav-tabs nav-tabs-bottom border-bottom-0 nav-justified">
+						<li class="nav-item"><a href="#bottom-justified-divided-tab1" class="nav-link active" data-toggle="tab"><i class="icon-images2 mr-2"></i> Gallery</a></li>
+						<li class="nav-item"><a href="#bottom-justified-divided-tab2" class="nav-link" data-toggle="tab"> <i class="icon-file-check2 mr-2"></i> Active Lease.</a></li>
+						<li class="nav-item"><a href="#bottom-justified-divided-tab3" class="nav-link" data-toggle="tab"> <i class="icon-folder-remove mr-2"></i> Terminated Leases.</a></li>
+					</ul>
+
+					<div class="tab-content">
+						<div class="tab-pane fade show active" id="bottom-justified-divided-tab1">
+							<div class="container-fluid">
+								
+								{% if house.house_image %}
+								<img src="{{house.house_image.url}}"
+								class="img-responsive thumbnail" style="height:200px;">
+
+								{% else %}
+									<div class="alert alert-warning text-center">
+										<i class="icon-warning"></i> There are no Images uploaded for this property unit.
+									</div>	
+
+								{% endif %}
+									
+							</div>
+		
+						</div>
+
+						<div class="tab-pane fade" id="bottom-justified-divided-tab2">
+							<div class="table-responsive">
+								<table class="table table-striped">
+									<thead>
+										<tr>
+											<th><b>#</b></th>
+											<th><b>First Name</b></th>
+											<th><b>Last Name</b></th>
+											<th><b>Started on</b></th>
+											<th><b>Expires on</b></th>
+											<th><b>Action</b></th>
+										</tr>
+									</thead>
+									<tbody>
+		
+										{% for lease in active_leases %}
+		
+										<tr>
+											<td>{{forloop.counter}}</td>
+											<td>{{lease.tenant.first_name}}</td>
+											<td>{{lease.tenant.last_name}}</td>
+											<td>{{lease.lease_start_date|timesince}}</td>
+											<td>{{lease.lease_end_date}}</td>											
+											<td>
+												<a href="{% url 'Tenants:tenant_details' lease.tenant.id %}">
+													<i class="icon-eye4" style="color:black;"></i>
+												</a>
+
+												<a href="">
+													<i class="icon-bin ml-2" style="color:red;"></i>
+												</a>
+
+												
+											</td>
+										</tr>
+		
+										{% empty %}
+										<tr>
+											<td colspan="7">
+												<div class="alert alert-warning text-center">
+													<p>
+														<i class="icon-warning mr-3"></i> No registered active leases.
+													</p>
+												</div>
+											</td>
+										</tr>
+		
+										{% endfor %}
+		
+									</tbody>
+								</table>
+							</div>
+
+						</div>
+						<div class="tab-pane fade" id="bottom-justified-divided-tab3">
+							<div class="table-responsive">
+								<table class="table table-striped">
+									{% if terminated_leases %}				  
+										
+									<thead>
+										<tr>
+											<th><b>#</b></th>
+											<th><b>First Name</b></th>
+											<th><b>Last Name</b></th>
+											<th><b>Started on</b></th>
+											<th><b>Expires on</b></th>
+											<th><b>Action</b></th>
+										</tr>
+									</thead>
+									<tbody>
+		
+										{% for lease in terminated_leases %}
+		
+										<tr>
+											<td>{{forloop.counter}}</td>
+											<td>{{lease.tenant.first_name}}</td>
+											<td>{{lease.tenant.last_name}}</td>
+											<td>{{lease.lease_start_date|timesince}}</td>
+											<td>{{lease.lease_end_date}}</td>											
+											<td>
+												<a href="{% url 'Tenants:tenant_details' lease.tenant.id %}">
+													<i class="icon-eye4" style="color:black;"></i>
+												</a>
+
+												<a href="">
+													<i class="icon-bin ml-2" style="color:red;"></i>
+												</a>
+
+												
+											</td>
+										</tr>
+										{% endfor %}
+		
+										{% else %}
+									  
+										<tr>
+											<td colspan="7">
+												<div class="alert alert-warning text-center">
+													<p>
+														<i class="icon-warning mr-3"></i> No Terminated Lease associated to this unit.
+													</p>
+												</div>
+											</td>
+										</tr>
+		
+										
+										{% endif %}
+		
+									</tbody>
+								</table>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+</div>
+{% block scripts %}
+<script>
+	var SweetAlert = function () {
+
+		var _componentSweetAlert = function() {
+			if (typeof swal == 'undefined') {
+				console.warn('Warning - sweet_alert.min.js is not loaded.');
+				return;
+			}
+			var swalInit = swal.mixin({
+                buttonsStyling: false,
+                confirmButtonClass: 'btn btn-primary',
+                cancelButtonClass: 'btn btn-light'
+            });
+			$('#sweet_warning').on('click', function() {
+            swalInit({
+                title: 'You are about to terminate this Lease Agreement. Are you Sure?',
+                text: 'Note that this action is critical!',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, Proceed!',
+				position: 'top',
+				preConfirm: function(){
+					return window.location.href = "{% url 'Tenants:terminate_lease' house.id %}";
+				}
+            });
+        });
+
+		};
+		return {
+        initComponents: function() {
+            _componentSweetAlert();
+        }
+    }
+
+	}();
+
+	document.addEventListener('DOMContentLoaded', function() {
+		SweetAlert.initComponents();
+	});
+
+
+</script>
+
+{% endblock scripts %}
+
+{% endblock body %}

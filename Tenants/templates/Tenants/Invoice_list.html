@@ -1,0 +1,177 @@
+{% extends 'Tenants/base.html' %}
+{% load static %}
+{% block header %}
+<script src="{% static 'global_assets/js/main/jquery.min.js' %}"></script>
+<script src="{% static 'global_assets/js/main/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'global_assets/js/plugins/loaders/blockui.min.js' %}"></script>
+
+{% endblock header %}
+
+{% block body %}
+<div class="container-fluid">
+	<div class="row my-3">
+		<a href="{% url 'Tenants:active_leases'%}" class="btn btn-outline-dark btn-sm ml-auto"
+			style="margin-right: 20px; margin-bottom: 10px;border-radius: 5px;">
+			<i class="icon-arrow-left15 mr-1"></i>
+			Go
+			Back</a>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-header header-elements-inline" style="background-color:rgb(50,65,72);color: #fff;">
+					<h5 class="card-title"><i class="icon-credit-card2"></i> &nbsp; Invoices.</h5>
+					<div class="header-elements">
+						<div class="list-icons">
+							<a class="list-icons-item" data-action="collapse"></a>
+							<a class="list-icons-item" data-action="reload"></a>
+							<a class="list-icons-item" data-action="remove"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card my-4">
+				<div class="card-body">		
+				
+					<ul class="nav nav-tabs nav-tabs-bottom border-bottom-0 nav-justified">
+						<li class="nav-item"><a href="#bottom-justified-divided-tab1" class="nav-link active" data-toggle="tab"><i class="icon-files-empty2 mr-2"></i> All Invoices</a></li>
+						<li class="nav-item"><a href="#bottom-justified-divided-tab2" class="nav-link" data-toggle="tab"> <i class="icon-credit-card mr-2"></i> All Payments</a></li>
+					</ul>
+
+					<div class="tab-content">
+						<div class="tab-pane fade show active" id="bottom-justified-divided-tab1">
+							<div class="table-responsive">
+								<table class="table table-striped">
+									<thead>
+										<tr>
+											<th><b>#</b></th>
+											<th><b>Tenant</b></th>
+											<th><b>Billing For</b></th>
+											<th><b>Month</b></th>
+											<th><b>Amount Billed</b></th>
+											<th><b>Amount Paid</b></th>
+											<th><b>Amount Due</b></th>
+											 <th><b>Status</b></th>
+											<th><b>Action</b></th>
+										</tr>
+									</thead>
+									<tbody>
+		
+										{% for invoice in all_invoices %}
+		
+										<tr>
+											<td>{{forloop.counter}}</td>
+											<td>{{invoice.tenant}}</td>
+											<td>{{invoice.apartment}}  : : {{invoice.house}}</td>
+											<td>{{invoice.date_generated |date:"F Y"}}</td>
+											<td>Ksh {{invoice.amount_incurred}}</td>
+											<td>Ksh {{invoice.amount_paid}}</td>
+											<td>Ksh {{invoice.amount_due}}.</td>
+											<td>
+		
+												{% if not invoice.fully_paid %}
+												<span class="badge badge-warning">
+													Pending
+												</span>
+												{% else %}
+												<span class="badge badge-success">
+													Paid
+												</span>
+		
+												{% endif %}
+		
+											</td>
+											<td>
+		
+												<a href="{% url 'Tenants:invoice_template' my_lease_pk invoice.id %}">
+													<i class="icon-eye4 ml-2" style="color:black;"></i>
+												</a>
+												<a href="">
+													<i class="icon-bin ml-2" style="color:red;"></i>
+												</a>
+											</td>
+										</tr>
+		
+										{% empty %}
+										<tr>
+											<td colspan="9">
+												<div class="alert alert-warning text-center">
+													<p>
+														<i class="icon-warning mr-3"></i> No Invoices associated to this lease.
+													</p>
+												</div>
+											</td>
+										</tr>
+										{% endfor %}
+		
+		
+									</tbody>
+								</table>
+							</div>				
+						</div>
+
+						<div class="tab-pane fade" id="bottom-justified-divided-tab2">
+							<div class="table-responsive">
+								<table class="table table-striped">
+									<thead>
+										<tr>
+											<th><b>#</b></th>
+											<th><b>Apartment</b></th>
+											<th><b>House</b></th>
+											<th><b>Payment For:</b></th>
+											<th><b>payment date</b></th>
+											<th><b>Amount Paid</b></th>
+											<th><b>Action</b></th>
+										</tr>
+									</thead>
+									<tbody>
+		
+										{% for payment in all_payments %}
+		
+										<tr>
+											<td>{{forloop.counter}}</td>
+											<td>{{payment.apartment}}</td>
+											<td>{{payment.house}}</td>
+											<td>{{payment.payment_for}}</td>
+											<td>{{payment.date_paid}}</td>
+											<td>{{payment.amount_paid}}</td>
+											<td>
+												<a href="{% url 'Tenants:invoice_list' payment.lease.id %}">
+													<i class="icon-eye4" style="color:red;"></i>
+												</a>
+											</td>
+										</tr>
+		
+										{% empty %}
+										<tr>
+											<td colspan="7">
+												<div class="alert alert-warning text-center">
+													<p>
+														<i class="icon-warning mr-3"></i> No terminated Leases found.
+													</p>
+												</div>
+											</td>
+										</tr>
+		
+										{% endfor %}
+		
+									</tbody>
+								</table>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+
+		</div>
+
+	</div>
+</div>
+{% block scripts %}
+{% endblock scripts %}
+
+{% endblock body %}

@@ -1,0 +1,348 @@
+{% extends 'Tenants/base.html' %}
+{% load static %}
+{% block header %}
+<script src="{% static 'Tenants/global_assets/js/main/jquery.min.js '%}"></script>
+<script src="{% static 'Tenants/global_assets/js/main/bootstrap.bundle.min.js '%}"></script>
+<script src="{% static 'Tenants/global_assets/js/plugins/loaders/blockui.min.js '%}"></script>
+<script src="{% static 'Tenants/global_assets/js/plugins/notifications/sweet_alert.min.js' %}"></script>
+
+
+<style>
+ 		@media (max-width: 768px) {
+			 .user-img{
+				 width: 200px;
+				 margin-left: auto;
+				 margin-right: auto;
+				 margin-bottom: 30px;
+			 }
+	}
+	.btn-sweet{
+		background: transparent;
+		border: none;
+	}
+	.btn-sweet:focus{
+		outline: none;
+	}
+</style>
+
+{% endblock header %}
+
+{% block body %}
+<div class="container-fluid my-4">
+	<div class="row">
+		<a href="{% url 'Tenants:tenants_list' %}" class="btn btn-outline-dark btn-sm ml-auto"
+			style="margin-right: 20px; margin-bottom: 10px;border-radius: 5px;">
+			<i class="icon-arrow-left15 mr-1"></i>
+			Go
+			Back</a>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-header header-elements-inline" style="background-color:rgb(50,65,72);color: #fff;">
+					<h3 class="card-title"><i class="icon-user" style="font-size: 25px;"></i>
+						&nbsp;{{tenant.first_name}} {{tenant.last_name}}'s Profile</h3>
+					<div class="header-elements">
+						<div class="list-icons">
+							<a class="list-icons-item" data-action="reload"></a>
+							<a class="list-icons-item" data-action="remove"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="card">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-md-5">
+							<img src="{% static 'Tenants/images/user.png' %} " class="img-fluid user-img "/>
+						</div>
+						<div class="col-md-7">
+							<div class="container-fluid">
+							<table class="ml-4">
+								<tr>
+									<td style="padding-bottom: 10px;"><b>First Name:</b></td>
+									<td style="padding-bottom: 10px;" class="pl-4">{{tenant.first_name}}</td>
+								</tr>
+								<tr>
+									<td style="padding-bottom: 10px;"><b>Sur Name:</b></td>
+									<td style="padding-bottom: 10px;" class="pl-4">{{tenant.sur_name}}</td>
+								</tr>
+								<tr>
+									<td><b>Last Name:</b></td>
+									<td class="pl-4">{{tenant.last_name}}</td>
+								</tr>
+							</table>
+							<a href="" class="btn btn-outline-dark btn-sm my-2 ml-4" style="border-radius: 5px;">
+								<i class="icon-pencil5 mr-1"></i> Edit profile</a>
+						</div>
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="card">
+				<div class="card-body">
+					<div class="col-md-12 align-items-center">
+						<table class="ml-4">
+							<tr>
+								<td style="padding-bottom: 10px;"><b>
+									<i class="icon-man-woman mr-1"></i> Gender:</b></td>
+								<td style="padding-bottom: 10px;" class="pl-4">{{tenant.gender}}</td>
+							</tr>
+							<tr>
+								<td style="padding-bottom: 10px;"><b>
+									<i class="icon-phone mr-1"></i> Phone:</b></td>
+								<td style="padding-bottom: 10px;" class="pl-4">{{tenant.contact}}</td>
+							</tr>
+							<tr>
+								<td style="padding-bottom: 10px;"><b>
+									<i class="icon-envelop5 mr-1"></i>
+									Email:</b></td>
+								<td style="padding-bottom: 10px;" class="pl-4">{{tenant.email}}</td>
+							</tr>
+							<tr>
+								<td><b>
+									<i class="icon-credit-card mr-1"></i>
+									Id Number:</b></td>
+								<td class="pl-4">{{tenant.id_number}}</td>
+							</tr>
+						</table>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-12">
+			<div class="card my-3">
+				<div class="card-body">
+					<ul class="nav nav-tabs nav-tabs-bottom border-bottom-0 nav-justified">
+						<li class="nav-item"><a href="#bottom-justified-divided-tab1" class="nav-link active" data-toggle="tab"><i class="icon-files-empty2 mr-2"></i> Leases</a></li>
+						<li class="nav-item"><a href="#bottom-justified-divided-tab2" class="nav-link" data-toggle="tab"> <i class="icon-books mr-2"></i> Invoices</a></li>
+					</ul>
+
+					<div class="tab-content">
+						<div class="tab-pane fade show active" id="bottom-justified-divided-tab1">
+							<div class="table-responsive">
+								<table class="table table-striped">
+									<thead>
+										<tr>
+											<th><b>#</b></th>
+											<th><b>Apartment</b></th>
+											<th><b>House</b></th>
+											<th><b>Start Date</b></th>
+											<th><b>Expires on</b></th>
+											<th><b>Current Status</b></th>
+											<th><b>Action</b></th>
+										</tr>
+									</thead>
+									<tbody>
+		
+										{% for lease in all_leases %}
+		
+										<tr>
+											<td>{{forloop.counter}}</td>
+											<td>{{lease.apartment}}</td>
+											<td>{{lease.house}}</td>
+											<td>{{lease.lease_start_date}}</td>
+											<td>{{lease.lease_end_date}}</td>
+											<td>
+												{% if lease.current_status %}
+												<i class="icon-checkmark2"
+													style="color:green; font-size: 25px;"></i>
+												{% else %}
+												<i class="icon-cross3" style="color:red; font-size: 25px;"></i>
+												{% endif %}
+												<a type="button" href="" class=""  data-toggle="modal" data-target="#modal_iconified">
+													<i class="icon-info22 ml-2" style="font-size:13px;color: grey;"></i>
+
+												</a>
+
+
+											</td>
+											<td>
+												<a href="{% url 'Tenants:tenant_details' tenant.id %}">
+													<i class="icon-eye4" style="color:black;"></i>
+												</a>										
+												
+											</td>
+										</tr>
+		
+										{% empty %}
+										<tr>
+											<td colspan="7">
+												<div class="alert alert-info text-center">
+													<p>
+														<i class="icon-warning mr-3"></i> No Associated leases for this tenant.
+													</p>
+												</div>
+											</td>
+										</tr>
+		
+										{% endfor %}
+		
+									</tbody>
+								</table>
+							</div>
+		
+						</div>
+
+						<div class="tab-pane fade" id="bottom-justified-divided-tab2">
+							<div class="table-responsive">
+								<table class="table table-striped">
+									<thead>
+										<tr>
+											<th><b>#</b></th>
+											<th><b>Billing For</b></th>
+											<th><b>Month</b></th>
+											<th><b>Amount Billed</b></th>
+											<th><b>Amount Paid</b></th>
+											<th><b>Amount Due</b></th>
+											 <th><b>Status</b></th>
+											<th><b>Action</b></th>
+										</tr>
+									</thead>
+									<tbody>
+		
+										{% for invoice in all_invoices %}
+		
+										<tr>
+											<td>{{forloop.counter}}</td>
+											<td>{{invoice.apartment}}  : : {{invoice.house}}</td>
+											<td>{{invoice.date_generated |date:"F Y"}}</td>
+											<td>Ksh {{invoice.amount_incurred}}</td>
+											<td>Ksh {{invoice.amount_paid}}</td>
+											<td>Ksh {{invoice.amount_due}}.</td>
+											<td>
+		
+												{% if not invoice.fully_paid %}
+												<span class="badge badge-warning">
+													Pending
+												</span>
+												{% else %}
+												<span class="badge badge-success">
+													Paid
+												</span>
+		
+												{% endif %}
+		
+											</td>
+											<td>
+		
+												<a href="">
+													<i class="icon-eye4 ml-2" style="color:black;"></i>
+												</a>
+												<a href="">
+													<i class="icon-bin ml-2" style="color:red;"></i>
+												</a>
+											</td>
+										</tr>
+		
+										{% empty %}
+										<tr>
+											<td colspan="9">
+												<div class="alert alert-warning text-center">
+													<p>
+														<i class="icon-warning mr-3"></i> No registered Invoices genrated.
+													</p>
+												</div>
+											</td>
+										</tr>
+										{% endfor %}
+		
+		
+									</tbody>
+								</table>
+							</div>
+								</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+
+</div>
+
+<div id="modal_iconified" class="modal fade" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title"><i class="icon-menu7 mr-2"></i> &nbsp;Additional Info.</h5>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+
+			<div class="modal-body">
+				<div class="alert alert-info alert-dismissible alert-styled-left border-top-0 border-bottom-0 border-right-0">
+					<span class="font-weight-semibold">What </span> is the current status?.
+					<button type="button" class="close" data-dismiss="alert">×</button>
+				</div>
+
+				<h6 class="font-weight-semibold"><i class="icon-checkmark2 mr-2" style="color:green;"></i> Option 1.</h6>
+				<p>This signifies that the Tenant is the current occupant of the house. It shows that the 
+					tenant is an active tenant.
+				</p>
+
+				<hr>
+
+				<p><i class="icon-cross2 mr-2" style="color: red;"></i>
+					This signifies that the tenant has leased the house in the past but is not current the 
+					occupant of the same house.
+				</p>
+			</div>
+
+			<div class="modal-footer">
+				<button class="btn btn-link" data-dismiss="modal"><i class="icon-cross2 font-size-base mr-1"></i> Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% block scripts %}
+<script>
+	var SweetAlert = function () {
+
+		var _componentSweetAlert = function() {
+			if (typeof swal == 'undefined') {
+				console.warn('Warning - sweet_alert.min.js is not loaded.');
+				return;
+			}
+			var swalInit = swal.mixin({
+                buttonsStyling: false,
+                confirmButtonClass: 'btn btn-primary',
+                cancelButtonClass: 'btn btn-light'
+            });
+			$('#sweet_warning').on('click', function() {
+            swalInit({
+                title: 'You are about to terminate this Lease. Are you Sure?',
+                text: 'Note that this action is critical!',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, Proceed!',
+				position: 'top',
+				
+            });
+        });
+
+		};
+		return {
+        initComponents: function() {
+            _componentSweetAlert();
+        }
+    }
+
+	}();
+
+	document.addEventListener('DOMContentLoaded', function() {
+		SweetAlert.initComponents();
+	});
+
+
+</script>
+{% endblock scripts %}
+
+{% endblock body %}

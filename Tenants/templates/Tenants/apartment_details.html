@@ -1,0 +1,485 @@
+{% extends 'Tenants/base.html' %}
+{% load static %}
+{% block header %}
+<script src="{% static 'Tenants/global_assets/js/main/jquery.min.js '%}"></script>
+<script src="{% static 'Tenants/global_assets/js/main/bootstrap.bundle.min.js '%}"></script>
+<script src="{% static 'Tenants/global_assets/js/plugins/loaders/blockui.min.js '%}"></script>
+
+{% endblock header %}
+
+{% block body %}
+<div class="container-fluid my-4">
+	<div class="row">
+		<a href="{% url 'Tenants:apartment_list' %}" class="btn btn-outline-dark btn-sm ml-auto"
+			style="margin-right: 20px; margin-bottom: 10px;border-radius: 5px;">
+			<i class="icon-arrow-left15 mr-1"></i>
+			Go
+			Back</a>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<div class="card">
+				<div class="card-header header-elements-inline" style="background-color: rgb(50,65,72);color: #fff;">
+					<h3 class="card-title"><i class="icon-home" style="font-size: 25px;"></i>
+						&nbsp;{{apartment.apartment_name}} Details</h3>
+					<div class="header-elements">
+						<div class="list-icons">
+							<a class="list-icons-item" data-action="reload"></a>
+							<a class="list-icons-item" data-action="remove"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card my-3">
+				<div class="card-body">
+					<div class="d-md-flex">
+						<ul
+							class="nav nav-tabs nav-tabs-vertical flex-column mr-md-3 wmin-md-200 mb-md-0 border-bottom-0">
+							<li class="nav-item"><a href="#overview" class="nav-link active" data-toggle="tab"><i
+										class="icon-home4 mr-2"></i> Overview</a>
+							</li>
+							<li class="nav-item"><a href="#features" class="nav-link" data-toggle="tab"><i
+										class="icon-heart6 mr-2"></i> Features & Amenities</a>
+							</li>
+							<li class="nav-item"><a href="#gallery" class="nav-link" data-toggle="tab"><i
+										class="icon-images2 mr-2"></i> Gallery</a>
+							</li>
+							<li class="nav-item"><a href="#location" class="nav-link" data-toggle="tab"><i
+										class="icon-location3 mr-2"></i> Location</a>
+							</li>
+
+						</ul>
+
+						<div class="tab-content">
+							<div class="tab-pane fade show active" id="overview">
+								<div class="container-fluid">
+									<div class="table-responsive">
+										<table class="table table-striped">
+											<tbody>
+												<tr>
+													<td><b>Property Name:</b></td>
+													<td>{{apartment.apartment_name}}</td>
+												</tr>
+												<tr>
+													<td><b>House Types:</b></td>
+													<td>{{apartment.default_house_type}}</td>
+												</tr>
+												<tr>
+													<td><b>Total Rooms:</b></td>
+													<td>{{apartment.units}}</td>
+												</tr>
+												<tr>
+													<td><b>Available Rooms:</b></td>
+													<td>{{apartment.available_rooms}}</td>
+												</tr>
+											</tbody>
+											<tr>
+												<td><b>Caretaker:</b></td>
+												<td>{{apartment.caretaker}}</td>
+											</tr>
+											</tbody>
+										</table>
+									</div>
+
+								</div>
+							</div>
+
+							<div class="tab-pane fade" id="features">
+								<div class="container-fluid">
+									<div class="table-responsive">
+										<table class="table table-striped">
+											<tbody>
+												<tr>
+													<td><b>Air Conditioner</b></td>
+													<td>
+
+														{% if apartment.air_conditioners %}
+														<i class="icon-checkmark2"
+															style="color:green; font-size: 25px;"></i>
+														{% else %}
+														<i class="icon-cross3" style="color:red; font-size: 25px;"></i>
+														{% endif %}
+													</td>
+												</tr>
+												<tr>
+													<td><b>Car parking</b></td>
+													<td>
+														{% if apartment.car_parking %}
+														<i class="icon-checkmark2"
+															style="color:green; font-size: 25px;"></i>
+														{% else %}
+														<i class="icon-cross3" style="color:red; font-size: 25px;"></i>
+														{% endif %}
+													</td>
+												</tr>
+												<tr>
+													<td><b>Laundry Room</b></td>
+													<td>
+														{% if apartment.laundry_room %}
+														<i class="icon-checkmark2"
+															style="color:green; font-size: 25px;"></i>
+														{% else %}
+														<i class="icon-cross3" style="color:red; font-size: 25px;"></i>
+														{% endif %}
+													</td>
+												</tr>
+												<tr>
+													<td><b>Heating</b></td>
+													<td>
+														{% if apartment.heaters %}
+														<i class="icon-checkmark2"
+															style="color:green; font-size: 25px;"></i>
+														{% else %}
+														<i class="icon-cross3" style="color:red; font-size: 25px;"></i>
+														{% endif %}
+													</td>
+												</tr>
+												<tr>
+													<td><b>Balcony</b></td>
+													<td>
+														{% if apartment.balcony %}
+														<i class="icon-checkmark2"
+															style="color:green; font-size: 25px;"></i>
+														{% else %}
+														<i class="icon-cross3" style="color:red; font-size: 25px;"></i>
+														{% endif %}
+													</td>
+												</tr>
+												<tr>
+													<td><b>Gym</b></td>
+													<td>
+														{% if apartment.gym %}
+														<i class="icon-checkmark2"
+															style="color:green; font-size: 25px;"></i>
+														{% else %}
+														<i class="icon-cross3" style="color:red; font-size: 25px;"></i>
+														{% endif %}
+													</td>
+												</tr>
+												<tr>
+													<td><b>Internet</b></td>
+													<td>
+														{% if apartment.internet %}
+														<i class="icon-checkmark2"
+															style="color:green; font-size: 25px;"></i>
+														{% else %}
+														<i class="icon-cross3" style="color:red; font-size: 25px;"></i>
+														{% endif %}
+													</td>
+												</tr>
+												<tr>
+													<td><b>Garden</b></td>
+													<td>
+														{% if apartment.garden %}
+														<i class="icon-checkmark2"
+															style="color:green; font-size: 25px;"></i>
+														{% else %}
+														<i class="icon-cross3" style="color:red; font-size: 25px;"></i>
+														{% endif %}
+													</td>
+												</tr>
+												<tr>
+													<td><b>Alarm</b></td>
+													<td>
+														{% if apartment.alarm %}
+														<i class="icon-checkmark2"
+															style="color:green; font-size: 25px;"></i>
+														{% else %}
+														<i class="icon-cross3" style="color:red; font-size: 25px;"></i>
+														{% endif %}
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+
+								</div>
+
+							</div>
+
+							<div class="tab-pane fade" id="gallery">
+								<div class="container-fluid">
+									<div class="row">
+										<div class="col-8">
+
+											{% if apartment.apartment_image %}
+											<img src="{{apartment.apartment_image.url}}"
+												class="img-responsive thumbnail" style="height:200px;">
+											{% else %}
+											<h6>No uploaded images.</h6>
+											{% endif %}
+
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="tab-pane fade" id="location">
+								<div class="container-fluid">
+									<div class="table-responsive">
+										<table class="table table-striped">
+											<tbody>
+												<tr>
+													<td><b>City:</b></td>
+													<td>{{apartment.city}}</td>
+												</tr>
+												<tr>
+													<td><b>State:</b></td>
+													<td>{{apartment.state}}</td>
+												</tr>
+												<tr>
+													<td><b>Street:</b></td>
+													<td>{{apartment.location}}</td>
+												</tr>
+												<tr>
+													<td><b>Postal Code:</b></td>
+													<td>{{apartment.post_code}}</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="card">
+				<div class="card-header header-elements-inline" style="background-color: rgb(50,65,72);color: #fff;">
+					<h3 class="card-title">
+						<i class="icon-library2" style="font-size: 25px;"></i>
+						&nbsp; All Units.
+					</h3>
+					<div class="header-elements">
+						<div class="list-icons">
+							<a class="list-icons-item" data-action="reload"></a>
+							<a class="list-icons-item" data-action="remove"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card my-3">
+				<div class="card-body">
+					<div class="table-responsive">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th><b>#</b></th>
+									<th><b>Type</b></th>
+									<th><b>Rent</b></th>
+									<th><b>Vacancy</b></th>
+									<th><b>Action</b></th>
+								</tr>
+							</thead>
+							<tbody>
+
+								{% for house in apartment_houses %}
+
+								<tr>
+									<td>{{house.house_code}}</td>
+									<td>{{house.house_type}}</td>
+									<td>Ksh {{house.rent}}.</td>
+									<td>
+
+										{% if house.vacant %}
+										<span class="badge badge-warning">
+											Vacant
+										</span>
+										{% else %}
+										<span class="badge badge-primary">
+											Occupied
+										</span>
+
+										{% endif %}
+
+									</td>
+									<td>
+										<a href="{% url 'Tenants:house_details' house.id %}">
+											<i class="icon-eye4 ml-2" style="color:black;"></i>
+										</a>
+									</td>
+								</tr>
+
+								{% endfor %}
+
+
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-body">
+					<ul class="nav nav-tabs nav-tabs-bottom border-bottom-0 nav-justified">
+						<li class="nav-item"><a href="#bottom-justified-divided-tab1" class="nav-link active" data-toggle="tab"><i class="icon-files-empty2 mr-2"></i> Active Leases</a></li>
+						<li class="nav-item"><a href="#bottom-justified-divided-tab2" class="nav-link" data-toggle="tab"> <i class="icon-folder-remove mr-2"></i> Terminated Leases.</a></li>
+					</ul>
+
+					<div class="tab-content">
+						<div class="tab-pane fade show active" id="bottom-justified-divided-tab1">
+							<div class="table-responsive">
+								<table class="table table-striped">
+									<thead>
+										<tr>
+											<th><b>#</b></th>
+											<th><b>Apartment</b></th>
+											<th><b>House</b></th>
+											<th><b>Start Date</b></th>
+											<th><b>Expires on</b></th>
+											<th><b>Current Status</b></th>
+											<th><b>Action</b></th>
+										</tr>
+									</thead>
+									<tbody>
+		
+										{% for lease in active_apartment_leases %}
+		
+										<tr>
+											<td>{{forloop.counter}}</td>
+											<td>{{lease.apartment}}</td>
+											<td>{{lease.house}}</td>
+											<td>{{lease.lease_start_date}}</td>
+											<td>{{lease.lease_end_date}}</td>
+											<td>
+												{% if lease.current_status %}
+												<span class="badge badge-primary">Active</span>
+												<i class="icon-checkmark2"
+													style="color:green; font-size: 25px;"></i>
+												{% else %}
+												<span class="badge badge-warning">Terminated</span>
+												{% endif %}
+												<a type="button" href="" class=""  data-toggle="modal" data-target="#modal_iconified">
+													<i class="icon-info22 ml-2" style="font-size:13px;color: grey;"></i>
+
+												</a>
+
+
+											</td>
+											<td>
+												<a href="">
+													<i class="icon-eye4" style="color:black;"></i>
+												</a>
+
+												<a href="{% url 'Tenants:terminate_lease' lease.house.id %}"
+                                                        class="confirm-delete" title="Delete" data-toggle="modal"
+                                                        data-target="#confirmDeleteModal"
+                                                        id="deleteButton{{lease.house.id}}">
+                                                        <i class="icon-x ml-2" style="color:red;"></i>
+                                                    </a>
+
+												
+											</td>
+										</tr>
+		
+										{% empty %}
+										<tr>
+											<td colspan="7">
+												<div class="alert alert-warning text-center">
+													<p>
+														<i class="icon-warning mr-3"></i> No related active leases.
+													</p>
+												</div>
+											</td>
+										</tr>
+		
+										{% endfor %}
+		
+									</tbody>
+								</table>
+							</div>
+		
+						</div>
+
+						<div class="tab-pane fade" id="bottom-justified-divided-tab2">
+							<div class="table-responsive">
+								<table class="table table-striped">
+									<thead>
+										<tr>
+											<th><b>#</b></th>
+											<th><b>Apartment</b></th>
+											<th><b>House</b></th>
+											<th><b>Start Date</b></th>
+											<th><b>Expires on</b></th>
+											<th><b>Current Status</b></th>
+											<th><b>Action</b></th>
+										</tr>
+									</thead>
+									<tbody>
+		
+										{% for lease in terminated_apartment_leases %}
+		
+										<tr>
+											<td>{{forloop.counter}}</td>
+											<td>{{lease.apartment}}</td>
+											<td>{{lease.house}}</td>
+											<td>{{lease.lease_start_date}}</td>
+											<td>{{lease.lease_end_date}}</td>
+											<td>
+												{% if lease.current_status %}
+												<span class="badge badge-primary">Active</span>
+												<i class="icon-checkmark2"
+													style="color:green; font-size: 25px;"></i>
+												{% else %}
+												<span class="badge badge-warning">Terminated</span>
+												{% endif %}
+												<a type="button" href="" class=""  data-toggle="modal" data-target="#modal_iconified">
+													<i class="icon-info22 ml-2" style="font-size:13px;color: grey;"></i>
+
+												</a>
+
+
+											</td>
+											<td>
+												<a href="">
+													<i class="icon-eye4" style="color:black;"></i>
+												</a>
+
+												<a href="">
+													<i class="icon-x ml-2" style="color:red;"></i>
+												</a>
+
+												
+											</td>
+										</tr>
+		
+										{% empty %}
+										<tr>
+											<td colspan="7">
+												<div class="alert alert-warning text-center">
+													<p>
+														<i class="icon-warning mr-3"></i> No related terminated Leases found.
+													</p>
+												</div>
+											</td>
+										</tr>
+		
+										{% endfor %}
+		
+									</tbody>
+								</table>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</div>
+{% block scripts %}
+{% endblock scripts %}
+
+{% endblock body %}

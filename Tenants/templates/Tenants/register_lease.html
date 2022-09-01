@@ -1,0 +1,157 @@
+{% extends 'Tenants/base.html' %}
+{% load static %}
+{% block header %}
+<script src="{% static 'Tenants/global_assets/js/main/jquery.min.js '%}"></script>
+<script src="{% static 'Tenants/global_assets/js/main/bootstrap.bundle.min.js '%}"></script>
+<script src="{% static 'Tenants/global_assets/js/plugins/loaders/blockui.min.js '%}"></script>
+<script src="{% static 'Tenants/global_assets/js/plugins/forms/selects/select2.min.js '%}"></script>
+<script src="{% static 'Tenants/global_assets/js/plugins/forms/styling/uniform.min.js '%}"></script>
+<script src="{% static 'Tenants/global_assets/js/demo_pages/form_layouts.js '%}"></script>
+
+
+{% endblock header %}
+
+{% block body %}
+<div class="container-fluid my-4">
+	<div class="row">
+		<div class="col-md-8">
+
+			<div class="card">
+				<div class="card-body">
+					<div class="col-md-12">
+						<form action="" method="POST" enctype="multipart/form-data" id="personForm" data-cities-url="{% url 'Tenants:load_houses' %}" novalidate>
+							{% csrf_token %}
+							<fieldset>
+								<legend class="font-weight-semibold" style="font-size: 20px;"><i class="icon-file-plus mr-2"
+										style="font-size: 20px;"></i> Create Lease
+								</legend>
+
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Select Property:</label>
+											{{form.apartment}}
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Select House:</label>
+											{{form.house}}
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-6">										
+											<div class="form-group">
+												<label>Select Tenant:</label>
+												{{form.tenant}}
+											</div>
+									</div>
+
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>End Date:</label>
+											<input type="date" id="id_lease_end_date" required name="lease_end_date"
+												class="form-control border-teal border-1">
+												<!-- {{form.lease_end_date}} -->
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label class="d-block">Upload Lease Documents:</label>
+											<input type="file" required name="lease_documents" id="id_lease_documents" class="form-input-styled" data-fouc>
+											<span class="form-text text-muted">Accepted formats: *pdf 2Mb</span>
+											
+										</div>
+									</div>
+
+									<div class="col-md-6">
+										<div class="form-group">
+											<div class="form-check my-4 ml-3">
+												<label class="form-check-label">
+													<input type="checkbox" checked name="current_status" class="form-input-styled" data-fouc>
+													Current Status
+												</label>
+											</div>
+										</div>
+									</div>
+									
+								</div>
+
+								<div class="text-right">
+									<button type="submit" class="btn btn-primary">Submit form <i
+											class="icon-paperplane ml-2"></i></button>
+								</div>
+
+
+							</fieldset>
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="card" style="background-color: rgb(50,65,72);color: #fff;">
+				<div class="card-body">
+					<p style="font-size: 22px;">Bills <i class="icon-credit-card float-right my-2"></i> </p>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-body">
+					<div class="form-group">
+						<div class="form-check my-4 ml-3">
+							<label class="form-check-label">
+								<input type="checkbox" name="gas" class="form-input-styled" data-fouc>
+								Gas
+							</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="form-check my-4 ml-3">
+							<label class="form-check-label">
+								<input type="checkbox" name="Electricity" class="form-input-styled" data-fouc>
+								Electricity
+							</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="form-check my-4 ml-3">
+							<label class="form-check-label">
+								<input type="checkbox" name="internet" class="form-input-styled" data-fouc>
+								Internet
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% block script%}
+<script type="text/javascript">
+    $('#id_apartment').change(function(){
+        var url = $('#personForm').attr('data-cities-url');
+        var apartmentId = $(this).val();
+
+        $.ajax({
+            url: url,
+            data: {
+                'apartment': apartmentId
+            },
+            success: function(data){
+                $('#id_house').html(data);
+            }
+        });
+    });
+</script>
+
+        </div>
+    </div>
+</div>
+  {%endblock script%}
+{% endblock body %}

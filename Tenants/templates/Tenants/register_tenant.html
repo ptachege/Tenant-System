@@ -1,0 +1,115 @@
+{% extends 'Tenants/base.html' %}
+{% load static %}
+{% block header %}
+<script src="{% static 'Tenants/global_assets/js/main/jquery.min.js '%}"></script>
+<script src="{% static 'Tenants/global_assets/js/main/bootstrap.bundle.min.js '%}"></script>
+<script src="{% static 'Tenants/global_assets/js/plugins/loaders/blockui.min.js '%}"></script>
+<script src="{% static 'Tenants/global_assets/js/plugins/forms/selects/select2.min.js '%}"></script>
+<script src="{% static 'Tenants/global_assets/js/plugins/forms/styling/uniform.min.js '%}"></script>
+<script src="{% static 'Tenants/global_assets/js/demo_pages/form_layouts.js '%}"></script>
+
+{% endblock header %}
+
+{% block body %}
+<div class="container-fluid my-4">
+	<div class="row">
+		<div class="col-md-8 offset-md-2">
+
+			<div class="card">
+				<div class="card-body">
+					<div class="col-md-12">
+						<form action="" method="POST">
+							{% csrf_token %}
+							<fieldset>
+								<legend class="font-weight-semibold" style="font-size: 20px;"><i class="icon-user-plus mr-2"
+										style="font-size: 20px;"></i> Register Tenants.
+								</legend>
+
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>First name:</label>
+											<input type="text" required name="first_name" placeholder="Eugene"
+												class="form-control border-teal border-1">
+										</div>
+									</div>
+
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Sur name:</label>
+											<input type="text" required name="sur_name" placeholder="Kopyov"
+												class="form-control border-teal border-1">
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Last Name:</label>
+											<input type="text" required name="last_name" placeholder="njuguna"
+												class="form-control border-teal border-1">
+										</div>
+									</div>
+
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Phone #:</label>
+											<input type="text" required placeholder="+99-99-9999-9999" name="phone"
+												class="form-control border-teal border-1">
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Gender:</label>
+											<select name="gender" required data-placeholder="Select Gender"
+												class="form-control  form-control-select2" data-fouc>
+												<option></option>
+												<option value="Male">Male</option>
+												<option value="Female">Female</option>
+											</select>
+										</div>
+									</div>
+
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Id Number:</label>
+											<input type="text" required placeholder="Id Number" name="id_number"
+												class="form-control border-teal border-1">
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Email:</label>
+											<input type="email" required placeholder="johndoe@hotmail.com" name="email"
+												class="form-control border-teal border-1">
+										</div>
+									</div>
+
+								</div>
+								<div class="text-right">
+									<button type="submit" class="btn btn-primary">Submit form <i
+											class="icon-paperplane ml-2"></i></button>
+								</div>
+
+
+							</fieldset>
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% block scripts %}
+{% endblock scripts %}
+
+{% endblock body %}

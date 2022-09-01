@@ -1,0 +1,80 @@
+{% extends 'Tenants/base.html' %}
+{% load static %}
+{% block header %}
+<script src="{% static 'global_assets/js/main/jquery.min.js' %}"></script>
+<script src="{% static 'global_assets/js/main/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'global_assets/js/plugins/loaders/blockui.min.js' %}"></script>
+
+{% endblock header %}
+
+{% block body %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card my-4">
+				<div class="card-header header-elements-inline" style="background-color:rgb(50,65,72);color: #fff;">
+					<h5 class="card-title"><i class="icon-users4"></i> &nbsp;All Registered Tenants</h5>
+					<div class="header-elements">
+						<div class="list-icons">
+							<a class="list-icons-item" data-action="collapse"></a>
+							<a class="list-icons-item" data-action="reload"></a>
+							<a class="list-icons-item" data-action="remove"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card my-4">
+				<div class="card-body">
+					<div class="table-responsive">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th><b>#</b></th>
+									<th><b>First Name</b></th>
+									<th><b>Sur Name</b></th>
+									<th><b>Last Name</b></th>
+									<th><b>Action</b></th>
+								</tr>
+							</thead>
+							<tbody>
+
+								{% for tenant in all_tenants %}
+
+								<tr>
+									<td>{{forloop.counter}}</td>
+									<td>{{tenant.first_name}}</td>
+									<td>{{tenant.sur_name}}</td>
+									<td>{{tenant.last_name}}</td>
+									<td>
+										<a href="{% url 'Tenants:tenant_details' tenant.id %}">
+											<i class="icon-eye4" style="color:black;"></i>
+										</a>
+										<a href="" style="margin-left: 10px;">
+											<i class="icon-bin" style="color:red; font-size: 16px;"></i>
+										</a>
+									</td>
+								</tr>
+
+								{% empty %}
+								<tr>
+									<td colspan="4">
+										<h6>No Apartments registered.</h6>
+									</td>
+								</tr>
+
+								{% endfor %}
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+</div>
+{% block scripts %}
+{% endblock scripts %}
+
+{% endblock body %}

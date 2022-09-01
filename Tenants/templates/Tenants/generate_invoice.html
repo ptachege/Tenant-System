@@ -1,0 +1,59 @@
+{% extends 'Tenants/base.html' %}
+{% load static %}
+{% block header %}
+<script src="{% static 'Tenants/global_assets/js/main/jquery.min.js '%}"></script>
+<script src="{% static 'Tenants/global_assets/js/main/bootstrap.bundle.min.js '%}"></script>
+<script src="{% static 'Tenants/global_assets/js/plugins/loaders/blockui.min.js '%}"></script>
+<script src="{% static 'Tenants/global_assets/js/plugins/forms/selects/select2.min.js '%}"></script>
+<script src="{% static 'Tenants/global_assets/js/plugins/forms/styling/uniform.min.js '%}"></script>
+<script src="{% static 'Tenants/global_assets/js/demo_pages/form_layouts.js '%}"></script>
+
+
+{% endblock header %}
+
+{% block body %}
+<div class="container-fluid my-4">
+	<div class="row">
+		<div class="col-md-8 offset-md-2">
+
+			<div class="card">
+				<div class="card-body">
+					<div class="col-md-12">
+						<form action="" method="POST" enctype="multipart/form-data">
+							{% csrf_token %}
+							<fieldset>
+								<legend class="font-weight-semibold" style="font-size: 20px;"><i class="icon-file-plus mr-2"
+										style="font-size: 20px;"></i> Generate Invoice
+								</legend>
+
+
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Date:</label>
+											<input type="date" id="id_date_generated" required name="date_generated"
+												class="form-control border-teal border-1">
+												<!-- {{form.lease_end_date}} -->
+										</div>
+									</div>
+								</div>
+
+
+								<div class="text-right">
+									<button type="submit" class="btn btn-primary">Generate <i
+											class="icon-loop3 ml-2"></i></button>
+								</div>
+
+
+							</fieldset>
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% block script%}
+  {%endblock script%}
+{% endblock body %}

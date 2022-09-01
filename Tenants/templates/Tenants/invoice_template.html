@@ -1,0 +1,248 @@
+{% extends 'Tenants/base.html' %}
+{% load static %}
+{% load month_tags %}
+{% block header %}
+<script src="{% static 'global_assets/js/main/jquery.min.js' %}"></script>
+<script src="{% static 'global_assets/js/main/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'global_assets/js/plugins/loaders/blockui.min.js' %}"></script>
+<script src="{% static 'global_assets/js/demo_pages/invoice_template.js' %}"></script>
+
+{% endblock header %}
+
+{% block body %}
+<div class="container-fluid">
+	<div class="row my-3">
+		<a href="{% url 'Tenants:invoice_list' ipk %}" class="btn btn-outline-dark btn-sm ml-auto"
+			style="margin-right: 20px; margin-bottom: 10px;border-radius: 5px;">
+			<i class="icon-arrow-left15 mr-1"></i>
+			Go
+			Back</a>
+	</div>
+
+	<div class="row">
+		<div class="col-md-10 offset-md-1">
+			<div class="card">
+				<div class="card-header header-elements-inline" style="background-color:rgb(50,65,72);color: #fff;">
+					<h5 class="card-title">{{invoice.apartment}} : :  Room {{invoice.house.house_code}} </h5>
+					<div class="header-elements">
+						<button type="button" class="btn btn-light btn-sm" style="background: transparent; color: white;"><i class="icon-file-check mr-2"></i> Save</button>
+						<button type="button" class="btn btn-light btn-sm ml-3" style="background: transparent; color: white;"><i class="icon-printer2 mr-2" ></i> Print</button>
+					</div>
+				</div>
+			</div>
+			<div class="card my-3">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="mb-4">
+								 <ul class="list list-unstyled mb-0">
+									<li>{{invoice.apartment.apartment_name}},</li>
+									<li>{{invoice.apartment.city}}, {{invoice.apartment.location}},</li>
+									<li>{{invoice.apartment.post_code}}.</li>
+								</ul>
+							</div>
+						</div>
+		
+						<div class="col-sm-6">
+							<div class="mb-4">
+								<div class="text-sm-right">
+									<h4 class="text-primary mb-2 mt-md-2">Invoice #A00{{invoice.id}}</h4>
+									<ul class="list list-unstyled mb-0">
+										<li>Date: <span class="font-weight-semibold">{{invoice.date_generated}}</span></li>
+										<li>Due date: <span class="font-weight-semibold">********</span></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+		
+					<div class="d-md-flex flex-md-wrap">
+						<div class="mb-4 mb-md-2">
+							<span class="text-muted">Invoice To:</span>
+							 <ul class="list list-unstyled mb-0">
+								<li><h5 class="my-2">{{invoice.tenant.first_name}} {{invoice.tenant.sur_name}} {{invoice.tenant.last_name}}</h5></li>
+								<li><span class="font-weight-semibold">{{invoice.tenant.contact}}</span></li>
+								<li>{{invoice.tenant.id_number}}</li>
+								<li><a href="">{{invoice.tenant.email}}</a></li>
+								
+							</ul>
+						</div>
+		
+						<div class="mb-2 ml-auto">
+							<span class="text-muted">Payment Details:</span>
+							<div class="d-flex flex-wrap wmin-md-400">
+								<ul class="list list-unstyled mb-0">
+									<li><h5 class="my-2">Amount Billed:</h5></li>
+									<li><h5 class="my-2">Total Due:</h5></li>
+									<li><h5 class="my-2">Status:</h5></li>
+									<li>Payment:</li>
+									<li>Country:</li>
+									<li>City:</li>
+									<li>Address:</li>
+									<li>SWIFT code:</li>
+								</ul>
+		
+								<ul class="list list-unstyled text-right mb-0 ml-auto">
+									<li><h5 class="font-weight-semibold my-2">Ksh {{invoice.amount_incurred}}</h5></li>
+									<li><h5 class="font-weight-semibold my-2">Ksh {{invoice.lease.running_balance}}</h5></li>
+									<li><h5 class="font-weight-semibold my-2">
+										{% if invoice.fully_paid %}
+										<span class="badge badge-success">
+											Paid
+										</span>										  
+										{% else %}
+										<span class="badge badge-warning">
+											Pending
+										</span>										  
+										{% endif %}
+										
+									</h5></li>
+									<li><span class="font-weight-semibold">KCB or Mpesa</span></li>
+									<li>Kenya</li>
+									<li>{{invoice.apartment.city}}</li>
+									<li>{{invoice.apartment.location}}</li>
+									<li><span class="font-weight-semibold">BPT4E</span></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+		
+				<div class="table-responsive">
+					<table class="table table-lg">
+						<thead>
+							<tr>
+								<th>Description</th>
+								<th>Date</th>
+								<th>Total</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<h6 class="mb-0">Billing for <b> {{gmonth|month_name }}'s </b>Rent</h6>
+								</td>
+								<td>{{gmonth|month_name }}</td>
+								<td><span class="font-weight-semibold">Ksh {{invoice.amount_incurred}}</span></td>
+							</tr>
+							<tr>
+								<td>
+									<h6 class="mb-0">Billing for previous overdues.</h6>
+								</td>
+								<td>**</td>
+								<td><span class="font-weight-semibold">Ksh {{invoice.previous_over_dues}}</span></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+		
+				<div class="card-body">
+					<div class="d-md-flex flex-md-wrap">
+						<div class="pt-2 mb-3">
+							<h6 class="mb-3">Authorized person</h6>
+							<div class="mb-3">
+								<img src="{% static 'Tenants/global_assets/images/signature.png' %}" width="150" alt="">
+							</div>
+		
+							<ul class="list-unstyled text-muted">
+								<li>{{invoice.apartment.caretaker.first_name}} {{invoice.apartment.caretaker.last_name}}</li>
+								<li>{{invoice.apartment.caretaker.id_number}}</li>
+								<li>{{invoice.apartment.caretaker.email}}</li>
+								<li>{{invoice.apartment.caretaker.contact}}</li>
+							</ul>
+						</div>
+		
+						<div class="pt-2 mb-3 wmin-md-400 ml-auto">
+							<h6 class="mb-3">Total due</h6>
+							<div class="table-responsive">
+								<table class="table">
+									<tbody>
+										<tr>
+											<th>Subtotal:</th>
+											<td class="text-right">Ksh {{invoice.lease.running_balance}}</td>
+										</tr>
+										<tr>
+											<th>Tax: <span class="font-weight-normal">(0%)</span></th>
+											<td class="text-right">Ksh 0</td>
+										</tr>
+										<tr>
+											<th>Total:</th>
+											<td class="text-right text-primary"><h5 class="font-weight-semibold">Ksh {{invoice.lease.running_balance}}</h5></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+		
+							<div class="text-right mt-3">
+								
+								{% if not invoice.fully_paid %}	
+								<button type="button" class="btn btn-primary btn-labeled btn-labeled-left" data-toggle="modal" data-target="#modal_form_vertical"><b><i class="icon-paperplane"></i></b> Pay Invoice</button>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+				</div>
+		
+				<div class="card-footer">
+					<span class="text-muted">Thank you for using Limitless. This invoice can be paid via PayPal, Bank transfer, Skrill or Payoneer. Payment is due within 30 days from the date of delivery. Late payment is possible, but with with a fee of 10% per month. Company registered in England and Wales #6893003, registered office: 3 Goodman Street, London E1 8BF, United Kingdom. Phone number: 888-555-2311</span>
+				</div>
+			</div>
+		
+		</div>
+	</div>
+</div>
+<!--Modal content and body and heading starts here.-->
+<div id="modal_form_vertical" class="modal fade" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header" style="background-color:rgb(50,65,72);color: #fff; padding-top:20px; padding-bottom: 20px;">
+				<div class="container-fluid text-center">
+				<h5 class="modal-title">
+					<i class="icon-credit-card mr-3"></i> Invoice Payment for {{invoice.apartment.apartment_name}} -- Room {{invoice.house.house_code}}  : : {{invoice.date_generated |date:"F Y"}}</h5>
+				</div>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+
+			<form action="{% url 'Tenants:pay_invoice' invoice.pk %}" method="POST">
+				{% csrf_token %}
+				<div class="modal-body">
+					<div class="alert mb-3 alert-info alert-dismissible alert-styled-left text-center border-top-0 border-bottom-0 border-right-0">
+						Notice that the amount Due is Ksh <span class="font-weight-semibold">{{invoice.lease.running_balance}} </span> 
+						<button type="button" class="close" data-dismiss="alert">×</button>
+					</div>
+	
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Date Paid:</label>
+									<input type="date" id="id_date_paid" required name="date_paid"
+										class="form-control border-teal border-1">
+										<!-- {{form.lease_end_date}} -->
+								</div>
+							</div>
+							<div class="col-md-6">										
+								<div class="form-group">
+									<label>Amount:</label>
+								<input type="number" required placeholder="Ksh {{invoice.lease.running_balance}}" name="amount_paid"
+									class="form-control border-teal border-1">
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-outline-dark mr-auto" data-dismiss="modal">Close</button>
+					<button type="submit" class="btn bg-primary">Make Payment</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!--modal content and form ends here.-->
+{% block scripts %}
+{% endblock scripts %}
+
+{% endblock body %}

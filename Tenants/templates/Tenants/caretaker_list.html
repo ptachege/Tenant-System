@@ -1,0 +1,135 @@
+{% extends 'Tenants/base.html' %}
+{% load static %}
+{% block header %}
+<script src="{% static 'global_assets/js/main/jquery.min.js' %}"></script>
+<script src="{% static 'global_assets/js/main/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'global_assets/js/plugins/loaders/blockui.min.js' %}"></script>
+
+{% endblock header %}
+
+{% block body %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card my-4">
+				<div class="card-header header-elements-inline" style="background-color:rgb(50,65,72);color: #fff;">
+					<h5 class="card-title"><i class="icon-user-tie"></i> &nbsp;All Registered Caretakers</h5>
+					<div class="header-elements">
+						<div class="list-icons">
+							<a class="list-icons-item" data-action="collapse"></a>
+							<a class="list-icons-item" data-action="reload"></a>
+							<a class="list-icons-item" data-action="remove"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card my-4">
+				<div class="card-body">
+					<div class="table-responsive">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th><b>#</b></th>
+									<th><b>First Name</b></th>
+									<th><b>Sur Name</b></th>
+									<th><b>Last Name</b></th>
+									<th><b>Gender</b></th>
+									<th><b>Id Number</b></th>
+									<th><b>Contact</b></th>
+									<th><b>Location</b></th>
+									<th><b>Action</b></th>
+								</tr>
+							</thead>
+							<tbody>
+
+								{% for caretaker in all_caretakers %}
+
+								<tr>
+									<td>{{forloop.counter}}</td>
+									<td>{{caretaker.first_name}}</td>
+									<td>{{caretaker.sur_name}}</td>
+									<td>{{caretaker.last_name}}</td>
+									<td>{{caretaker.gender}}</td>
+									<td>{{caretaker.id_number}}</td>
+									<td>{{caretaker.contact}}</td>
+									<td>{{caretaker.location}}</td>
+									<td>
+										<a href="">
+											<i class="icon-pencil7" style="color:black;"></i>
+										</a>
+										<a href="{% url 'Tenants:delete_caretaker' caretaker.id %}"
+                                                        class="confirm-delete2" title="Delete" data-toggle="modal"
+                                                        data-target="#confirmDeleteModal2"
+                                                        id="deleteButton{{caretaker.id}}">
+											<i class="icon-bin" style="color:red; font-size: 17px;"></i>
+										</a>
+									</td>
+								</tr>
+
+								{% empty %}
+								<tr>
+									<td colspan="9">
+										<div class="alert alert-warning text-center">
+											<h6><i class="icon-warning mr-2 "></i> No Caretakers registered.</h6>
+										</div>
+									</td>
+								</tr>
+
+								{% endfor %}
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+</div>
+
+<div class="modal fade" id="confirmDeleteModal2" tabindex="-1" caller-id="" role="dialog"
+    aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <div class="container text-center">
+            <h2 class="modal-title" id="">Delete Caretaker</h2>
+          </div>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">x</span>
+          </button>
+        </div>
+        <div class="modal-body confirm-delete22">
+          <div class="container text-center">
+            <i class="icon-warning" style="color:rgb(236, 11, 11); font-size: 50px;"></i><br>
+            <span>Are you sure you want to delete this Caretaker?</span><br>
+            <h3>This action is permanent!</h3>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="container">
+            <button style="float:left;" type="button" class="btn btn-primary btn-sm"
+              data-dismiss="modal">Cancel</button>
+            <button style="float:right;" type="button" class="btn btn-danger btn-sm" data-dismiss="modal"
+              id="confirmDeleteButtonModal2">Confirm</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+{% block scripts %}
+<script>
+	$(document).on('click', '.confirm-delete2', function () {
+		  $("#confirmDeleteModal2").attr("caller-id", $(this).attr("id"));
+		});
+	
+		$(document).on('click', '#confirmDeleteButtonModal2', function () {
+		  var caller = $("#confirmDeleteButtonModal2").closest(".modal").attr("caller-id");
+		  window.location = $("#".concat(caller)).attr("href");
+		});
+</script>
+{% endblock scripts %}
+
+{% endblock body %}

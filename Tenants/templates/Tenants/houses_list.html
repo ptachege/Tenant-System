@@ -1,0 +1,101 @@
+{% extends 'Tenants/base.html' %}
+{% load static %}
+{% block header %}
+<script src="{% static 'global_assets/js/main/jquery.min.js' %}"></script>
+<script src="{% static 'global_assets/js/main/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'global_assets/js/plugins/loaders/blockui.min.js' %}"></script>
+
+{% endblock header %}
+
+{% block body %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card my-4">
+				<div class="card-header header-elements-inline" style="background-color:rgb(50,65,72);color: #fff;;">
+					<h5 class="card-title"><i class="icon-library2"></i> &nbsp;All Registered Units</h5>
+					<div class="header-elements">
+						<div class="list-icons">
+							<a class="list-icons-item" data-action="collapse"></a>
+							<a class="list-icons-item" data-action="reload"></a>
+							<a class="list-icons-item" data-action="remove"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card my-4">
+				<div class="card-body">
+					<div class="table-responsive">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th><b>#</b></th>
+									<th><b>Parent Property</b></th>
+									<th><b>Type</b></th>
+									<th><b>Rent</b></th>
+									<th><b>Vacancy</b></th>
+									<th><b>Action</b></th>
+								</tr>
+							</thead>
+							<tbody>
+
+								{% for house in all_houses_qs %}
+
+								<tr>
+									<td>{{house.house_code}}</td>
+									<td>{{house.apartment}}</td>
+									<td>{{house.house_type}}</td>
+									<td>Ksh {{house.rent}}.</td>
+									<td>
+
+										{% if house.vacant %}
+										<span class="badge badge-warning">
+											Vacant
+										</span>
+										{% else %}
+										<span class="badge badge-primary">
+											Occupied
+										</span>
+
+										{% endif %}
+
+									</td>
+									<td>
+										<a href="{% url 'Tenants:house_details' house.id %}">
+											<i class="icon-eye4 ml-2" style="color:black;"></i>
+										</a>
+										<a href="">
+											<i class="icon-bin ml-2" style="color:red;"></i>
+										</a>
+									</td>
+								</tr>
+
+								{% empty %}
+								<tr>
+									<td colspan="7">
+										<div class="alert alert-info text-center">
+											<p>
+												<i class="icon-warning mr-3"></i> No registered Units.
+											</p>
+										</div>
+									</td>
+								</tr>
+								{% endfor %}
+
+
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+</div>
+{% block scripts %}
+{% endblock scripts %}
+
+{% endblock body %}
